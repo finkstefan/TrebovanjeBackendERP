@@ -65,6 +65,26 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(admins);
         }
 
+        [HttpGet]
+        [HttpHead]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Korisnik>> GetKorisniks()
+        {
+
+
+            List<Korisnik> korisniks = korisnikRepository.GetKorisnici();
+            if (korisniks.Count == 0 || korisniks == null)
+            {
+                return NoContent();
+            }
+
+
+            return Ok(korisniks);
+        }
+
         [HttpGet("distributers")]
         [HttpHead]
         [Authorize(Roles = "Admin")]

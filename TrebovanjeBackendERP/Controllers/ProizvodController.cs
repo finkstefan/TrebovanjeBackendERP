@@ -55,7 +55,7 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(proizvodi);
         }
 
-        [HttpGet("{porudzbinaId}")]
+        [HttpGet("byPorudzbina/{porudzbinaId}")]
         [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]

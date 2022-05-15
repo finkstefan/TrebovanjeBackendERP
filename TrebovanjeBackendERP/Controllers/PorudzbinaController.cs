@@ -55,7 +55,7 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(porudzbine);
         }
 
-        [HttpGet]
+        [HttpGet("neisplacene")]
         [Authorize(Roles = "Admin")]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
