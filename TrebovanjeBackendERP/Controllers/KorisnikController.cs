@@ -89,8 +89,52 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(distributers);
         }
 
-        
-        
+        [HttpGet("distributers/{naziv}")]
+        [HttpHead]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<Distributer> GetDistributerByNaziv(string naziv)
+        {
+
+
+            Distributer distributer = distributerRepository.GetDistributerByNaziv(naziv);
+            if (distributer == null)
+            {
+                return NoContent();
+            }
+
+                distributer.Korisnik = korisnikRepository.GetKorisnikById(distributer.KorisnikId);
+            
+
+            return Ok(distributer);
+        }
+
+        [HttpGet("distributers/{pib}")]
+        [HttpHead]
+        [Authorize(Roles = "Admin")]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<Distributer> GetDistributersByPib(string pib)
+        {
+
+
+            Distributer distributer = distributerRepository.GetDistributerByPib(pib);
+            if (distributer == null)
+            {
+                return NoContent();
+            }
+
+            distributer.Korisnik = korisnikRepository.GetKorisnikById(distributer.KorisnikId);
+
+
+            return Ok(distributer);
+        }
+
+
+
         [HttpGet("{korisnikId}")]
         [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

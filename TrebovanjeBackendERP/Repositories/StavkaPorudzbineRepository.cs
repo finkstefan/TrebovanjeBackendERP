@@ -56,6 +56,11 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+       public List<int> GetProizvodiIzPorudzbine(int porudzbinaId)
+        {
+            return (from sp in context.StavkaPorudzbines where sp.PorudzbinaId == porudzbinaId select sp.ProizvodId).ToList();
+        }
+
         public StavkaPorudzbine GetStavkaPorudzbineById(int stavkaPorID)
         {
             return context.StavkaPorudzbines.FirstOrDefault(sp => sp.StavkaPorudzbineId == stavkaPorID);

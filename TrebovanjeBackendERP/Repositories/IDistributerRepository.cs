@@ -10,7 +10,10 @@ namespace TrebovanjeBackendERP.Repositories
 
         Distributer GetDistributerById(int distributerID);
 
-      
+        Distributer GetDistributerByNaziv(string naziv);
+
+        Distributer GetDistributerByPib(string pib);
+
 
         Distributer CreateDistributer(Distributer distributer);
 

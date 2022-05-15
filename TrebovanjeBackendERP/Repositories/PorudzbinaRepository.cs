@@ -56,6 +56,13 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+        public List<Porudzbina> GetNeisplacenePorudzbine()
+        {
+            return (from p in context.Porudzbinas where p.Isplacena == false select p).ToList();
+
+
+        }
+
         public Porudzbina GetPorudzbinaById(int porudzbinaID)
         {
             return context.Porudzbinas.FirstOrDefault(p => p.PorudzbinaId == porudzbinaID);

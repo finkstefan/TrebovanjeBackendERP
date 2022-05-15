@@ -10,7 +10,7 @@ namespace TrebovanjeBackendERP.Repositories
 
         Porudzbina GetPorudzbinaById(int porudzbinaID);
 
-      
+        List<Porudzbina> GetNeisplacenePorudzbine();
 
        Porudzbina CreatePorudzbina(Porudzbina porudzbina);
 

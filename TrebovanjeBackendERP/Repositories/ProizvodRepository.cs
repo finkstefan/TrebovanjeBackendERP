@@ -13,10 +13,14 @@ namespace TrebovanjeBackendERP.Repositories
 
         private readonly IMapper mapper;
 
-        public ProizvodRepository(TrebovanjeDatabaseContext context, IMapper mapper)
+        private IStavkaPorudzbineRepository stavkaPorRepository;
+
+
+        public ProizvodRepository(TrebovanjeDatabaseContext context, IMapper mapper,IStavkaPorudzbineRepository stavkaPorRepository )
         {
             this.context = context;
             this.mapper = mapper;
+            this.stavkaPorRepository = stavkaPorRepository;
         }
 
 
@@ -59,6 +63,35 @@ namespace TrebovanjeBackendERP.Repositories
 
 
         }
+
+        public List<Proizvod> GetProizvodsByCena(int cena)
+        {
+            return (from p in context.Proizvods where p.Cena <= cena select p).ToList();
+
+
+        }
+
+        public List<Proizvod> GetProizvodsByKategorija(string kategorija)
+        {
+            return (from p in context.Proizvods where p.Kategorija.NazivKategorije == kategorija select p).ToList();
+
+
+        }
+        
+        public List<Proizvod> GetProizvodsByPorudzbina(int porudzbinaId)
+        {
+            List<int> proizvodiIDs = stavkaPorRepository.GetProizvodiIzPorudzbine(porudzbinaId);
+
+            List<Proizvod> proizvodi = new List<Proizvod>();
+
+            foreach (int prId in proizvodiIDs)
+            {
+                proizvodi.Add((from p in context.Proizvods where p.ProizvodId == prId select p).FirstOrDefault());
+            }
+
+            return proizvodi;
+        }
+        
 
         public void UpdateProizvod(Proizvod proizvod)
         {

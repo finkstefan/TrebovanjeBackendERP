@@ -55,7 +55,26 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(porudzbine);
         }
 
-       
+        [HttpGet]
+        [Authorize(Roles = "Admin")]
+        [HttpHead]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Porudzbina>> GetNeisplacenePorudzbine()
+        {
+
+
+            List<Porudzbina> porudzbine = porudzbinaRepository.GetNeisplacenePorudzbine();
+            if (porudzbine.Count == 0 || porudzbine == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(porudzbine);
+        }
+
+
         [HttpGet("{PorudzbinaId}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]

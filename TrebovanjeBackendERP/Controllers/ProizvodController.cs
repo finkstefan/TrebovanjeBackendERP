@@ -55,8 +55,27 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(proizvodi);
         }
 
-       
-        [HttpGet("{ProizvodId}")]
+        [HttpGet("{porudzbinaId}")]
+        [Authorize]
+        [HttpHead]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Proizvod>> GetProizvodiByPorudzbina(int porudzbinaId)
+        {
+
+
+            List<Proizvod> proizvodi = proizvodRepository.GetProizvodsByPorudzbina(porudzbinaId);
+            if (proizvodi.Count == 0 || proizvodi == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(proizvodi);
+        }
+
+
+        [HttpGet("{proizvodId}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -73,7 +92,41 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
 
-        
+
+
+        [HttpGet("byCena/{cena}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<List<Proizvod>> GetProizvodByCena(int cena)
+        {
+
+            List<Proizvod> pr = proizvodRepository.GetProizvodsByCena(cena);
+            if (pr == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(pr);
+        }
+
+        [HttpGet("byKategorija/{kategorija}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<List<Proizvod>> GetProizvodsByKategorija(string kategorija)
+        {
+
+            List<Proizvod> pr = proizvodRepository.GetProizvodsByKategorija(kategorija);
+            if (pr == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(pr);
+        }
+
+
         [HttpPost]
         [Authorize(Roles = "Admin")]
         [Consumes("application/json")]

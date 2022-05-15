@@ -56,6 +56,20 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+        public Distributer GetDistributerByNaziv(string naziv)
+        {
+            return (from d in context.Distributers where d.NazivDistributera == naziv select d).FirstOrDefault();
+
+
+        }
+
+        public Distributer GetDistributerByPib(string pib)
+        {
+            return (from d in context.Distributers where d.Pib == pib select d).FirstOrDefault();
+
+
+        }
+
         public Distributer GetDistributerById(int distributerID)
         {
             return context.Distributers.FirstOrDefault(d => d.KorisnikId == distributerID);
