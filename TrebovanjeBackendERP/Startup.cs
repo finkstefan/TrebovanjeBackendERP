@@ -70,6 +70,7 @@ namespace TrebovanjeBackendERP
             services.AddScoped<IStavkaPorudzbineRepository, StavkaPorudzbineRepository>();
             services.AddScoped<ILokacijaRepository, LokacijaRepository>();
             services.AddScoped<IProizvodRepository, ProizvodRepository>();
+            services.AddScoped<IKategorijaProizvodaRepository, KategorijaProizvodaRepository>();
 
             services.AddAutoMapper(AppDomain.CurrentDomain.GetAssemblies());
 

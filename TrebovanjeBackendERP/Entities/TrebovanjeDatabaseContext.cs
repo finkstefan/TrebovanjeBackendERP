@@ -17,7 +17,7 @@ namespace TrebovanjeBackendERP.Entities
 
         public virtual DbSet<Admin> Admins { get; set; }
         public virtual DbSet<Distributer> Distributers { get; set; }
-        public virtual DbSet<KategorijaProizvodum> KategorijaProizvoda { get; set; }
+        public virtual DbSet<KategorijaProizvodum> KategorijaProizvodums { get; set; }
         public virtual DbSet<Korisnik> Korisniks { get; set; }
         public virtual DbSet<Lokacija> Lokacijas { get; set; }
         public virtual DbSet<Porudzbina> Porudzbinas { get; set; }
