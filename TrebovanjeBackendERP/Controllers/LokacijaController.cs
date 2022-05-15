@@ -88,7 +88,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 Lokacija createdLokacija = lokacijaRepository.CreateLokacija(lokacija);
 
-                string location = linkGenerator.GetPathByAction("GetLokacija", "Lokacija", new { LokacijaId = lokacija.LokacijaId });
+                string location = linkGenerator.GetPathByAction("GetLokacija", "Lokacija", new { lokacijaId = lokacija.LokacijaId });
 
                 return Created(location, createdLokacija);
             }

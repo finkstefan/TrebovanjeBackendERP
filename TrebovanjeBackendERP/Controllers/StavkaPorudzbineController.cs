@@ -60,7 +60,7 @@ namespace TrebovanjeBackendERP.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<StavkaPorudzbine> GetStavkePorudzbine(int stavkaPorId)
+        public ActionResult<StavkaPorudzbine> GetStavkaPorudzbine(int stavkaPorId)
         {
 
             StavkaPorudzbine stavka = stavkaPorRepository.GetStavkaPorudzbineById(stavkaPorId);
@@ -87,7 +87,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                StavkaPorudzbine createdStavka = stavkaPorRepository.CreateStavkaPorudzbine(stavka);
 
-                string location = linkGenerator.GetPathByAction("GetStavkaPorudzbine", "StavkaPorudzbine", new { StavkaPorudzbineId = stavka.StavkaPorudzbineId });
+                string location = linkGenerator.GetPathByAction("GetStavkaPorudzbine", "StavkaPorudzbine", new { stavkaPorId = stavka.StavkaPorudzbineId });
 
                 return Created(location, createdStavka);
             }

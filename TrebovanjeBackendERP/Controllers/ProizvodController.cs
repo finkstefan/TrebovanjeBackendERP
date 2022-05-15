@@ -140,7 +140,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 Proizvod createdProizvod = proizvodRepository.CreateProizvod(proizvod);
 
-                string location = linkGenerator.GetPathByAction("GetProizvod", "Proizvod", new { ProizvodId = proizvod.ProizvodId });
+                string location = linkGenerator.GetPathByAction("GetProizvod", "Proizvod", new { proizvodId = proizvod.ProizvodId });
 
                 return Created(location, createdProizvod);
             }

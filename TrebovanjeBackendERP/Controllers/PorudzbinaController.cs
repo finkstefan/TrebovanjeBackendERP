@@ -75,7 +75,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
 
-        [HttpGet("{PorudzbinaId}")]
+        [HttpGet("{porudzbinaId}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -106,7 +106,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 Porudzbina createdPorudzbina = porudzbinaRepository.CreatePorudzbina(porudzbina);
 
-                string location = linkGenerator.GetPathByAction("GetPorudzbina", "Porudzbina", new { PorudzbinaId = porudzbina.PorudzbinaId });
+                string location = linkGenerator.GetPathByAction("GetPorudzbina", "Porudzbina", new { porudzbinaId = porudzbina.PorudzbinaId });
 
                 return Created(location, createdPorudzbina);
             }

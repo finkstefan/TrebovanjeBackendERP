@@ -172,7 +172,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
        
-        [HttpGet("/admin/{korisnikId}")]
+        [HttpGet("admin/{korisnikId}")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [Authorize(Roles = "Admin")]
@@ -184,7 +184,7 @@ namespace TrebovanjeBackendERP.Controllers
             {
                 return NotFound();
             }
-
+            admin.Korisnik = korisnikRepository.GetKorisnikById(admin.KorisnikId);
             return Ok(admin);
         }
 
@@ -201,7 +201,7 @@ namespace TrebovanjeBackendERP.Controllers
             {
                 return NotFound();
             }
-
+            distrib.Korisnik = korisnikRepository.GetKorisnikById(distrib.KorisnikId);
             return Ok(distrib);
         }
 
@@ -219,7 +219,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 Admin createdAdmin = adminRepository.CreateAdmin(admin);
 
-                string location = linkGenerator.GetPathByAction("GetAdmin", "Admin", new { KorisnikId = admin.KorisnikId });
+                string location = linkGenerator.GetPathByAction("GetAdmin", "Admin", new { korisnikId = admin.KorisnikId });
 
                 return Created(location, createdAdmin);
             }
