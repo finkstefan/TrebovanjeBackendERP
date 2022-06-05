@@ -18,6 +18,9 @@ namespace TrebovanjeBackendERP.Entities
 
         [Key]
         public int ProizvodId { get; set; }
+        
+        [NotMapped]
+        public string KategorijaNaziv { get; set; }
         public int KategorijaId { get; set; }
         public float Cena { get; set; }
         public bool Dostupan { get; set; }

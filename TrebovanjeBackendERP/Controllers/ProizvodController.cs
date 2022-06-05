@@ -22,14 +22,16 @@ namespace TrebovanjeBackendERP.Controllers
     public class ProizvodController : ControllerBase
     {
         private readonly IProizvodRepository proizvodRepository;
+        private readonly IKategorijaProizvodaRepository kategorijaRepository;
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
 
 
-        public ProizvodController(IProizvodRepository proizvodRepository, LinkGenerator linkGenerator, IMapper mapper)
+        public ProizvodController(IProizvodRepository proizvodRepository, IKategorijaProizvodaRepository kategorijaRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
             this.proizvodRepository = proizvodRepository;
+            this.kategorijaRepository = kategorijaRepository;
             this.linkGenerator = linkGenerator;
             this.mapper = mapper;
            
@@ -37,7 +39,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet]
-        [Authorize]
+      //  [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -51,7 +53,12 @@ namespace TrebovanjeBackendERP.Controllers
             {
                 return NoContent();
             }
-           
+            foreach (Proizvod pr in proizvodi)
+            {
+                pr.KategorijaNaziv = kategorijaRepository.GetKategorijaById(pr.KategorijaId).NazivKategorije;
+            }
+
+
             return Ok(proizvodi);
         }
 
@@ -66,9 +73,16 @@ namespace TrebovanjeBackendERP.Controllers
 
 
             List<Proizvod> proizvodi = proizvodRepository.GetProizvodsByPorudzbina(porudzbinaId);
+           
+
             if (proizvodi.Count == 0 || proizvodi == null)
             {
                 return NoContent();
+            }
+
+            foreach (Proizvod pr in proizvodi)
+            {
+                pr.KategorijaNaziv = kategorijaRepository.GetKategorijaById(pr.KategorijaId).NazivKategorije;
             }
 
             return Ok(proizvodi);
@@ -76,7 +90,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet("{proizvodId}")]
-        [Authorize]
+      //  [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Proizvod> GetProizvod(int proizvodId)
