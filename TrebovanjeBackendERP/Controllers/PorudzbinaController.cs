@@ -94,7 +94,7 @@ namespace TrebovanjeBackendERP.Controllers
 
         
         [HttpPost]
-        [Authorize]
+      //  [Authorize]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

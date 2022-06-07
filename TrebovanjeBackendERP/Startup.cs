@@ -91,6 +91,11 @@ namespace TrebovanjeBackendERP
 
             app.UseHttpsRedirection();
 
+            app.UseCors(x => x
+              .AllowAnyOrigin()
+              .AllowAnyMethod()
+              .AllowAnyHeader());
+
             app.UseRouting();
             
             app.UseAuthentication();
