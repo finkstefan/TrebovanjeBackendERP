@@ -12,6 +12,8 @@ namespace TrebovanjeBackendERP.Repositories
 
         List<int> GetProizvodiIzPorudzbine(int porudzbinaId);
 
+        List<StavkaPorudzbine> GetStavkeByPorudzbinaId(int porudzbinaId);
+
         StavkaPorudzbine CreateStavkaPorudzbine(StavkaPorudzbine sp);
 
         void UpdateStavkaPorudzbine(StavkaPorudzbine sp);

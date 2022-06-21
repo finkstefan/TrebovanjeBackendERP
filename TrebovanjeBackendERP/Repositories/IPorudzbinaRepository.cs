@@ -14,6 +14,8 @@ namespace TrebovanjeBackendERP.Repositories
 
        Porudzbina CreatePorudzbina(Porudzbina porudzbina);
 
+        
+
         void UpdatePorudzbina(Porudzbina porudzbina);
 
         void DeletePorudzbina(int porudzbinaID);

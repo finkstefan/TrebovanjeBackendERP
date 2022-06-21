@@ -71,6 +71,8 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+        
+
         public List<Proizvod> GetProizvodsByKategorija(string kategorija)
         {
             return (from p in context.Proizvods where p.Kategorija.NazivKategorije == kategorija select p).ToList();

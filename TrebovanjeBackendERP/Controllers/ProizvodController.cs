@@ -169,14 +169,14 @@ namespace TrebovanjeBackendERP.Controllers
 
         
         [HttpDelete("{ProizvodId}")]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult DeleteProizvod(int proizvodId)
         {
            
-            try
+         //   try
             {
                 Proizvod proizvod = proizvodRepository.GetProizvodById(proizvodId);
                 if (proizvod == null)
@@ -187,7 +187,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 return NoContent();
             }
-            catch
+        //    catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Delete proizvod Error");
             }

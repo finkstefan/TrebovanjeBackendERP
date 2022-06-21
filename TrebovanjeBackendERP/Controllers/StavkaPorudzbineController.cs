@@ -37,7 +37,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet]
-        [Authorize]
+      //  [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -55,7 +55,26 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(stavke);
         }
 
-    
+        [HttpGet("stavkeByPorudzbinaId/{porId}")]
+        //  [Authorize]
+        [HttpHead]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<StavkaPorudzbine>> GetStavkePorudzbineByPorudzbinaId(int porId)
+        {
+
+
+            List<StavkaPorudzbine> stavke = stavkaPorRepository.GetStavkeByPorudzbinaId(porId);
+            if (stavke.Count == 0 || stavke == null)
+            {
+                return NoContent();
+            }
+
+            return Ok(stavke);
+        }
+
+
         [HttpGet("{stavkaPorId}")]
         [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
