@@ -22,14 +22,16 @@ namespace TrebovanjeBackendERP.Controllers
     public class PorudzbinaController : ControllerBase
     {
         private readonly IPorudzbinaRepository porudzbinaRepository;
+        private readonly IStavkaPorudzbineRepository stavkaPorRepository;
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
 
 
-        public PorudzbinaController(IPorudzbinaRepository porudzbinaRepository, LinkGenerator linkGenerator, IMapper mapper)
+        public PorudzbinaController(IPorudzbinaRepository porudzbinaRepository, IStavkaPorudzbineRepository stavkaPorRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
             this.porudzbinaRepository = porudzbinaRepository;
+            this.stavkaPorRepository = stavkaPorRepository;
             this.linkGenerator = linkGenerator;
             this.mapper = mapper;
            
@@ -47,6 +49,12 @@ namespace TrebovanjeBackendERP.Controllers
            
 
             List<Porudzbina> porudzbine = porudzbinaRepository.GetPorudzbine();
+
+            foreach(Porudzbina por in porudzbine)
+            {
+                por.Iznos = stavkaPorRepository.GetIznosPorudzbineByPorudzbinaId(por.PorudzbinaId);
+            }
+
             if (porudzbine.Count == 0 || porudzbine == null)
             {
                 return NoContent();

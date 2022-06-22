@@ -68,6 +68,18 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+        public float GetIznosPorudzbineByPorudzbinaId(int porID)
+        {
+            float ukupnaCena = 0;
+            List<float> cene= (from sp in context.StavkaPorudzbines where sp.PorudzbinaId == porID select sp.Proizvod.Cena * sp.Kolicina).ToList(); ;
+
+            foreach(float cena in cene)
+            {
+                ukupnaCena += cena;
+            }
+            return ukupnaCena;
+        }
+
         public List<StavkaPorudzbine> GetStavkeByPorudzbinaId(int porudzbinaID)
         {
             return (from sp in context.StavkaPorudzbines where sp.PorudzbinaId == porudzbinaID select sp).ToList();

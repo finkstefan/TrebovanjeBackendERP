@@ -23,6 +23,9 @@ namespace TrebovanjeBackendERP.Entities
         public int DistributerId { get; set; }
         public bool Isplacena { get; set; }
 
+        [NotMapped]
+        public float Iznos { get; set; }
+
         [ForeignKey(nameof(DistributerId))]
         [InverseProperty("Porudzbinas")]
         public virtual Distributer Distributer { get; set; }

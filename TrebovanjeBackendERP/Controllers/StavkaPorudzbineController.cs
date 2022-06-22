@@ -74,6 +74,26 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(stavke);
         }
 
+        [HttpGet("iznosPorudzbine/{porId}")]
+        //  [Authorize]
+        [HttpHead]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<float> GetIznosPorudzbineByPorudzbinaId(int porId)
+        {
+
+
+            float iznos = stavkaPorRepository.GetIznosPorudzbineByPorudzbinaId(porId);
+
+            if (iznos == 0)
+            {
+                return NoContent();
+            }
+
+            return Ok(iznos);
+        }
+
 
         [HttpGet("{stavkaPorId}")]
         [Authorize]
