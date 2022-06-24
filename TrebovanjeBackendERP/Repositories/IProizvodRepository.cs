@@ -19,6 +19,8 @@ namespace TrebovanjeBackendERP.Repositories
         List<Proizvod> GetProizvodsByKategorija(string kategorija);
 
         List<Proizvod> GetProizvodsByPorudzbina(int porudzbinaId);
+
+        int GetDostupnaKolicina(int proizvodId);
         void UpdateProizvod(Proizvod proizvod);
 
         void DeleteProizvod(int proizvodID);

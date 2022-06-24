@@ -22,14 +22,16 @@ namespace TrebovanjeBackendERP.Controllers
     public class StavkaPorudzbineController : ControllerBase
     {
         private readonly IStavkaPorudzbineRepository stavkaPorRepository;
+        public readonly IProizvodRepository proizvodRepository;
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
 
 
-        public StavkaPorudzbineController(IStavkaPorudzbineRepository stavkaPorRepository, LinkGenerator linkGenerator, IMapper mapper)
+        public StavkaPorudzbineController(IStavkaPorudzbineRepository stavkaPorRepository,IProizvodRepository proizvodRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
             this.stavkaPorRepository = stavkaPorRepository;
+            this.proizvodRepository = proizvodRepository;
             this.linkGenerator = linkGenerator;
             this.mapper = mapper;
            
@@ -123,12 +125,28 @@ namespace TrebovanjeBackendERP.Controllers
 
             try
             {
+                int dostupnaKol = proizvodRepository.GetDostupnaKolicina(stavka.ProizvodId);
 
-               StavkaPorudzbine createdStavka = stavkaPorRepository.CreateStavkaPorudzbine(stavka);
+                if(stavka.Kolicina < stavka.Kolicina)
+                {
+                    StavkaPorudzbine createdStavka = stavkaPorRepository.CreateStavkaPorudzbine(stavka);
 
-                string location = linkGenerator.GetPathByAction("GetStavkaPorudzbine", "StavkaPorudzbine", new { stavkaPorId = stavka.StavkaPorudzbineId });
+                    Proizvod updateProdQuantity = proizvodRepository.GetProizvodById(stavka.ProizvodId);
 
-                return Created(location, createdStavka);
+                    updateProdQuantity.DostupnaKolicina -= stavka.Kolicina;
+
+                    proizvodRepository.UpdateProizvod(updateProdQuantity);
+
+                    string location = linkGenerator.GetPathByAction("GetStavkaPorudzbine", "StavkaPorudzbine", new { stavkaPorId = stavka.StavkaPorudzbineId });
+
+                    return Created(location, createdStavka);
+                }
+                else
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, "Ordered quantity error");
+                }
+
+              
             }
             catch
             {

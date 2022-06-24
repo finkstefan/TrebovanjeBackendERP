@@ -71,7 +71,10 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
-        
+        public int GetDostupnaKolicina(int proizvodId)
+        {
+            return (from p in context.Proizvods where p.ProizvodId == proizvodId select p.DostupnaKolicina).FirstOrDefault();
+        }
 
         public List<Proizvod> GetProizvodsByKategorija(string kategorija)
         {

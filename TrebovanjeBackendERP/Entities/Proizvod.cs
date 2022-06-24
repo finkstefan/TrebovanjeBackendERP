@@ -26,6 +26,8 @@ namespace TrebovanjeBackendERP.Entities
         public int KategorijaId { get; set; }
         public float Cena { get; set; }
         public bool Dostupan { get; set; }
+
+        public int DostupnaKolicina { get; set; }
         public int AdminId { get; set; }
 
         [ForeignKey(nameof(AdminId))]
