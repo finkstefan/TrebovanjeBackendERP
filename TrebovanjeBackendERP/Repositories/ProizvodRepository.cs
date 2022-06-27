@@ -71,6 +71,13 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+        public List<Proizvod> GetProizvodsByNaziv(string naziv)
+        {
+            return (from p in context.Proizvods where p.Naziv.Contains(naziv) select p).ToList();
+
+
+        }
+
         public int GetDostupnaKolicina(int proizvodId)
         {
             return (from p in context.Proizvods where p.ProizvodId == proizvodId select p.DostupnaKolicina).FirstOrDefault();

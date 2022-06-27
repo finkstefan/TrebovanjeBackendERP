@@ -20,6 +20,8 @@ namespace TrebovanjeBackendERP.Repositories
 
         List<Proizvod> GetProizvodsByPorudzbina(int porudzbinaId);
 
+        List<Proizvod> GetProizvodsByNaziv(string naziv);
+
         int GetDostupnaKolicina(int proizvodId);
         void UpdateProizvod(Proizvod proizvod);
 

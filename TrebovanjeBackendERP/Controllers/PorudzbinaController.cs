@@ -12,6 +12,9 @@ using System.Net;
 using TrebovanjeBackendERP.Repositories;
 using TrebovanjeBackendERP.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Stripe.Checkout;
+using Stripe;
+using System.IO;
 
 namespace TrebovanjeBackendERP.Controllers
 {
@@ -26,7 +29,7 @@ namespace TrebovanjeBackendERP.Controllers
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
-
+        private readonly string WebhookSecret = "whsec_OurSigningSecret";
 
         public PorudzbinaController(IPorudzbinaRepository porudzbinaRepository, IStavkaPorudzbineRepository stavkaPorRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
@@ -37,6 +40,58 @@ namespace TrebovanjeBackendERP.Controllers
            
         }
 
+        [HttpPost("stripePayment")]
+        public void Processing([FromBody] float amount)
+        {
+            Dictionary<string, string> Metadata = new Dictionary<string, string>();
+     
+            var options = new ChargeCreateOptions
+            {
+                Amount = (long)amount*100,
+                Currency = "EUR",
+                Description = "Uplata za porudzbinu",
+                Source = "tok_visa",
+               // ReceiptEmail = stripeEmail,
+                Metadata = Metadata
+            };
+            var service = new ChargeService();
+            Charge charge = service.Create(options);
+            
+        }
+
+        [HttpPost]
+        public IActionResult ChargeChange()
+        {
+            var json = new StreamReader(HttpContext.Request.Body).ReadToEnd();
+
+            try
+            {
+                var stripeEvent = EventUtility.ConstructEvent(json,
+                    Request.Headers["Stripe-Signature"], WebhookSecret, throwOnApiVersionMismatch: true);
+                Charge charge = (Charge)stripeEvent.Data.Object;
+                switch (charge.Status)
+                {
+                    case "succeeded":
+                      /*  //This is an example of what to do after a charge is successful
+                        charge.Metadata.TryGetValue("Product", out string Product);
+                        charge.Metadata.TryGetValue("Quantity", out string Quantity);
+                        Database.ReduceStock(Product, Quantity);*/
+                      
+                        //ovde treba smanjiti kol na zalihama i checkirati da je porudzbina isplacine i eventualno brisati je 
+
+                        break;
+                    case "failed":
+                        //Code to execute on a failed charge
+                        break;
+                }
+            }
+            catch (Exception e)
+            {
+               // e.Ship(HttpContext);
+                return BadRequest();
+            }
+            return Ok();
+        }
 
         [HttpGet]
        // [Authorize]

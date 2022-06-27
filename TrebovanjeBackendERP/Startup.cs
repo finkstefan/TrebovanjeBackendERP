@@ -11,6 +11,7 @@ using Microsoft.Extensions.Logging;
 using Microsoft.IdentityModel.Tokens;
 using Microsoft.OpenApi.Models;
 using Newtonsoft.Json;
+using Stripe;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -82,6 +83,8 @@ namespace TrebovanjeBackendERP
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            StripeConfiguration.ApiKey = "sk_test_51LEHoBFYog7W2g6eg9hDQ2A4TRB19jX5fNOubYYpfG5fi8kP6OwfIgp0SbSggROc5afeWiY344VwbyMg2zyFyoTH00UxmcHz0p";
+
             if (env.IsDevelopment())
             {
                 app.UseDeveloperExceptionPage();

@@ -12,6 +12,7 @@ using System.Net;
 using TrebovanjeBackendERP.Repositories;
 using TrebovanjeBackendERP.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Stripe.Checkout;
 
 namespace TrebovanjeBackendERP.Controllers
 {
@@ -39,7 +40,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet]
-      //  [Authorize]
+        [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -140,8 +141,26 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(pr);
         }
 
+        [HttpGet("byNaziv/{naziv}")]
+        [Authorize]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<List<Proizvod>> GetProizvodsByNaziv(string naziv)
+        {
 
-        [HttpPost]
+            List<Proizvod> pr = proizvodRepository.GetProizvodsByNaziv(naziv);
+            if (pr == null)
+            {
+                return NotFound();
+            }
+
+            return Ok(pr);
+        }
+      
+
+    
+
+    [HttpPost]
         [Authorize(Roles = "Admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
