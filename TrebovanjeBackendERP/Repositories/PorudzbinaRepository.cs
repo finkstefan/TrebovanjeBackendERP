@@ -72,7 +72,14 @@ namespace TrebovanjeBackendERP.Repositories
 
         public void UpdatePorudzbina(Porudzbina porudzbina)
         {
+            Porudzbina oldPor = GetPorudzbinaById(porudzbina.PorudzbinaId);
 
+            oldPor.DistributerId = porudzbina.DistributerId;
+            oldPor.Datum = porudzbina.Datum;
+            oldPor.Iznos = porudzbina.Iznos;
+            oldPor.Isplacena = porudzbina.Isplacena;
+
+            SaveChanges();
         }
 
        

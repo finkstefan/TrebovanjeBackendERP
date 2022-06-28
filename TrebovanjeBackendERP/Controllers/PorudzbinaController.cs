@@ -15,6 +15,7 @@ using Microsoft.AspNetCore.Authorization;
 using Stripe.Checkout;
 using Stripe;
 using System.IO;
+using Newtonsoft.Json.Linq;
 
 namespace TrebovanjeBackendERP.Controllers
 {
@@ -41,13 +42,14 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
         [HttpPost("stripePayment")]
-        public void Processing([FromBody] float amount)
+        public void Processing([FromBody]StripeData data)
         {
             Dictionary<string, string> Metadata = new Dictionary<string, string>();
-     
+            Metadata.Add("OrderId", data.id.ToString());
+           
             var options = new ChargeCreateOptions
             {
-                Amount = (long)amount*100,
+                Amount = (long)data.amount*100,
                 Currency = "EUR",
                 Description = "Uplata za porudzbinu",
                 Source = "tok_visa",
@@ -72,12 +74,13 @@ namespace TrebovanjeBackendERP.Controllers
                 switch (charge.Status)
                 {
                     case "succeeded":
-                      /*  //This is an example of what to do after a charge is successful
-                        charge.Metadata.TryGetValue("Product", out string Product);
-                        charge.Metadata.TryGetValue("Quantity", out string Quantity);
-                        Database.ReduceStock(Product, Quantity);*/
-                      
-                        //ovde treba smanjiti kol na zalihama i checkirati da je porudzbina isplacine i eventualno brisati je 
+
+                        charge.Metadata.TryGetValue("OrderId", out string id);
+
+                        Porudzbina updateStatusPor = porudzbinaRepository.GetPorudzbinaById(Int32.Parse(id));
+                        updateStatusPor.Isplacena = true;
+
+                        porudzbinaRepository.SaveChanges();
 
                         break;
                     case "failed":
