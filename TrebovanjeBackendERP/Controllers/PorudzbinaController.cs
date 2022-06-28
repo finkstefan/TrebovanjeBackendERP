@@ -29,7 +29,7 @@ namespace TrebovanjeBackendERP.Controllers
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
-        private readonly string WebhookSecret = "whsec_OurSigningSecret";
+        private readonly string WebhookSecret = "whsec_3c3c2346adaf26f6c91a38c18fbdcae0413c7be62d9835814eadf9f65d3d902b";
 
         public PorudzbinaController(IPorudzbinaRepository porudzbinaRepository, IStavkaPorudzbineRepository stavkaPorRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
@@ -59,7 +59,7 @@ namespace TrebovanjeBackendERP.Controllers
             
         }
 
-        [HttpPost]
+        [HttpPost("paymentResult")]
         public IActionResult ChargeChange()
         {
             var json = new StreamReader(HttpContext.Request.Body).ReadToEnd();
@@ -81,7 +81,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                         break;
                     case "failed":
-                        //Code to execute on a failed charge
+                        
                         break;
                 }
             }
