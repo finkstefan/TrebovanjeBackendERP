@@ -68,6 +68,12 @@ namespace TrebovanjeBackendERP.Controllers
 
 
             List<StavkaPorudzbine> stavke = stavkaPorRepository.GetStavkeByPorudzbinaId(porId);
+
+            foreach(StavkaPorudzbine s in stavke)
+            {
+                s.Proizvod = proizvodRepository.GetProizvodById(s.ProizvodId);
+            }
+
             if (stavke.Count == 0 || stavke == null)
             {
                 return NoContent();
