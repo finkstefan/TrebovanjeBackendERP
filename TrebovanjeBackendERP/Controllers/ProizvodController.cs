@@ -89,6 +89,32 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(proizvodi);
         }
 
+        [HttpGet("byNazivAndKategorijaSorted/{naziv}/{kategorijaId}/{asc}")]
+        [Authorize]
+        [HttpHead]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status401Unauthorized)]
+        public ActionResult<List<Proizvod>> GetProizvodiByNazivAndKategorijaSorted(string naziv,int kategorija,int asc)
+        {
+
+
+            List<Proizvod> proizvodi = proizvodRepository.GetProizvodsByNazivAndKategorijaSorted(naziv,kategorija,asc);
+
+
+            if (proizvodi.Count == 0 || proizvodi == null)
+            {
+                return NoContent();
+            }
+
+            foreach (Proizvod pr in proizvodi)
+            {
+                pr.KategorijaNaziv = kategorijaRepository.GetKategorijaById(pr.KategorijaId).NazivKategorije;
+            }
+
+            return Ok(proizvodi);
+        }
+
 
         [HttpGet("{proizvodId}")]
       //  [Authorize]
@@ -142,7 +168,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
         [HttpGet("byNaziv/{naziv}")]
-        [Authorize]
+       //plaky [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Proizvod>> GetProizvodsByNaziv(string naziv)

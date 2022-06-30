@@ -78,6 +78,21 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+        public List<Proizvod> GetProizvodsByNazivAndKategorijaSorted(string naziv,int? kategorija, int asc)
+        {
+            if (asc == 1)
+            {
+                return (from p in context.Proizvods where p.Naziv.Contains(naziv) && p.KategorijaId == kategorija orderby p.Cena ascending select p).ToList();
+            }
+            else
+            {
+                return (from p in context.Proizvods where p.Naziv.Contains(naziv) && p.KategorijaId == kategorija orderby p.Cena ascending select p).ToList();
+            }
+            
+            
+
+        }
+
         public int GetDostupnaKolicina(int proizvodId)
         {
             return (from p in context.Proizvods where p.ProizvodId == proizvodId select p.DostupnaKolicina).FirstOrDefault();
