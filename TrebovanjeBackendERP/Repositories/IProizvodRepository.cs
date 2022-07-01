@@ -16,7 +16,7 @@ namespace TrebovanjeBackendERP.Repositories
 
         List<Proizvod> GetProizvodsByCena(int cena);
 
-        List<Proizvod> GetProizvodsByKategorija(string kategorija);
+        List<Proizvod> GetProizvodsByKategorija(int kategorija);
 
         List<Proizvod> GetProizvodsByPorudzbina(int porudzbinaId);
 

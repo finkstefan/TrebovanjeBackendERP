@@ -40,7 +40,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet]
-        [Authorize]
+      //  [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -90,7 +90,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
         [HttpGet("byNazivAndKategorijaSorted/{naziv}/{kategorijaId}/{asc}")]
-        [Authorize]
+       // [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -155,7 +155,7 @@ namespace TrebovanjeBackendERP.Controllers
         [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public ActionResult<List<Proizvod>> GetProizvodsByKategorija(string kategorija)
+        public ActionResult<List<Proizvod>> GetProizvodsByKategorija(int kategorija)
         {
 
             List<Proizvod> pr = proizvodRepository.GetProizvodsByKategorija(kategorija);

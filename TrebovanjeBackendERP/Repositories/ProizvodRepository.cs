@@ -82,11 +82,41 @@ namespace TrebovanjeBackendERP.Repositories
         {
             if (asc == 1)
             {
-                return (from p in context.Proizvods where p.Naziv.Contains(naziv) && p.KategorijaId == kategorija orderby p.Cena ascending select p).ToList();
+                if (naziv != "null" && kategorija != 0)
+                {
+                    return (from p in context.Proizvods where p.Naziv.Contains(naziv) && p.KategorijaId == kategorija orderby p.Cena ascending select p).ToList();
+                }
+                else if (naziv != "null" && kategorija == 0)
+                {
+                    return (from p in context.Proizvods where p.Naziv.Contains(naziv) orderby p.Cena ascending select p).ToList();
+                }else if (naziv == "null" && kategorija != 0)
+                {
+                    return (from p in context.Proizvods where p.KategorijaId == kategorija orderby p.Cena ascending select p).ToList();
+                }
+                else
+                {
+                    return (from p in context.Proizvods orderby p.Cena ascending select p).ToList();
+                }
+                
             }
             else
             {
-                return (from p in context.Proizvods where p.Naziv.Contains(naziv) && p.KategorijaId == kategorija orderby p.Cena ascending select p).ToList();
+                if (naziv != "null" && kategorija != 0)
+                {
+                    return (from p in context.Proizvods where p.Naziv.Contains(naziv) && p.KategorijaId == kategorija orderby p.Cena descending select p).ToList();
+                }
+                else if (naziv != "null" && kategorija == 0)
+                {
+                    return (from p in context.Proizvods where p.Naziv.Contains(naziv) orderby p.Cena descending select p).ToList();
+                }
+                else if (naziv == "null" && kategorija != 0)
+                {
+                    return (from p in context.Proizvods where p.KategorijaId == kategorija orderby p.Cena descending select p).ToList();
+                }
+                else
+                {
+                    return (from p in context.Proizvods orderby p.Cena descending select p).ToList();
+                }
             }
             
             
@@ -98,9 +128,9 @@ namespace TrebovanjeBackendERP.Repositories
             return (from p in context.Proizvods where p.ProizvodId == proizvodId select p.DostupnaKolicina).FirstOrDefault();
         }
 
-        public List<Proizvod> GetProizvodsByKategorija(string kategorija)
+        public List<Proizvod> GetProizvodsByKategorija(int kategorija)
         {
-            return (from p in context.Proizvods where p.Kategorija.NazivKategorije == kategorija select p).ToList();
+            return (from p in context.Proizvods where p.Kategorija.KategorijaId == kategorija select p).ToList();
 
 
         }
