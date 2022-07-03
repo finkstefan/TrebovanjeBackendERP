@@ -12,6 +12,8 @@ namespace TrebovanjeBackendERP.Repositories
 
         Korisnik GetKorisnikByUsernameAndPassword(string username, string password);
 
+        public int GetKorisnikIdByEmail(string email);
+
         Korisnik CreateKorisnik(Korisnik korisnik);
 
         void UpdateKorisnik(Korisnik korisnik);

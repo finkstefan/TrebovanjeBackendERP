@@ -12,7 +12,9 @@ namespace TrebovanjeBackendERP.Repositories
 
         List<Porudzbina> GetNeisplacenePorudzbine();
 
-       Porudzbina CreatePorudzbina(Porudzbina porudzbina);
+        List<Porudzbina> GetPorudzbineByDistributerId(int distributerId);
+
+        Porudzbina CreatePorudzbina(Porudzbina porudzbina);
 
         
 

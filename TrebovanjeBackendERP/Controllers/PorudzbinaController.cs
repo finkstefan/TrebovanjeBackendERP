@@ -28,17 +28,19 @@ namespace TrebovanjeBackendERP.Controllers
         private readonly IPorudzbinaRepository porudzbinaRepository;
         private readonly IStavkaPorudzbineRepository stavkaPorRepository;
         private readonly IDistributerRepository distributerRepository;
+        private readonly IKorisnikRepository korisnikRepository;
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
 
         private readonly string WebhookSecret = "whsec_3c3c2346adaf26f6c91a38c18fbdcae0413c7be62d9835814eadf9f65d3d902b";
 
-        public PorudzbinaController(IPorudzbinaRepository porudzbinaRepository, IDistributerRepository distributerRepository, IStavkaPorudzbineRepository stavkaPorRepository, LinkGenerator linkGenerator, IMapper mapper)
+        public PorudzbinaController(IPorudzbinaRepository porudzbinaRepository, IKorisnikRepository korisnikRepository, IDistributerRepository distributerRepository, IStavkaPorudzbineRepository stavkaPorRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
             this.porudzbinaRepository = porudzbinaRepository;
             this.stavkaPorRepository = stavkaPorRepository;
             this.distributerRepository = distributerRepository;
+            this.korisnikRepository = korisnikRepository;
             this.linkGenerator = linkGenerator;
             this.mapper = mapper;
            
@@ -146,7 +148,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet("{porudzbinaId}")]
-        [Authorize]
+     //   [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Porudzbina> GetPorudzbina(int porudzbinaId)
@@ -161,8 +163,30 @@ namespace TrebovanjeBackendERP.Controllers
             return Ok(por);
         }
 
+        [HttpGet("byDistributer/{email}")]
+      //  [Authorize]
+        [ProducesResponseType(StatusCodes.Status404NotFound)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
+        public ActionResult<List<Porudzbina>> GetPorudzbineByDistributer(string email)
+        {
 
-        
+            int distributerId = korisnikRepository.GetKorisnikIdByEmail(email);
+            List<Porudzbina> por = porudzbinaRepository.GetPorudzbineByDistributerId(distributerId);
+            if (por == null)
+            {
+
+                return NotFound();
+            }
+
+            foreach(Porudzbina p in por)
+            {
+                p.Distributer = distributerRepository.GetDistributerById(p.DistributerId);
+            }
+
+            return Ok(por);
+        }
+
+
         [HttpPost]
       //  [Authorize]
         [Consumes("application/json")]

@@ -63,6 +63,8 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+       
+
         public Distributer GetDistributerByPib(string pib)
         {
             return (from d in context.Distributers where d.Pib == pib select d).FirstOrDefault();

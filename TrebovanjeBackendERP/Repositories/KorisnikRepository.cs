@@ -63,6 +63,11 @@ namespace TrebovanjeBackendERP.Repositories
 
         }
 
+        public int GetKorisnikIdByEmail(string email)
+        {
+            return (from k in context.Korisniks where k.Email == email select k.KorisnikId).FirstOrDefault();
+        }
+
         public Korisnik GetKorisnikByUsernameAndPassword(string username,string password)
         {
             return context.Korisniks.FirstOrDefault(k => k.KorisnickoIme == username && k.Lozinka==password);
