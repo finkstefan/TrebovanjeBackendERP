@@ -152,7 +152,15 @@ namespace TrebovanjeBackendERP.Repositories
 
         public void UpdateProizvod(Proizvod proizvod)
         {
+            Proizvod oldProizvod = GetProizvodById(proizvod.ProizvodId);
 
+            oldProizvod.AdminId = proizvod.AdminId;
+            oldProizvod.Cena = proizvod.Cena;
+            oldProizvod.Dostupan = proizvod.Dostupan;
+            oldProizvod.DostupnaKolicina = proizvod.DostupnaKolicina;
+            oldProizvod.KategorijaId = proizvod.KategorijaId;
+
+            SaveChanges();
         }
 
        

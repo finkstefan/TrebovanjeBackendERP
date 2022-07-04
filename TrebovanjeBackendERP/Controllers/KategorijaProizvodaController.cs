@@ -78,7 +78,7 @@ namespace TrebovanjeBackendERP.Controllers
 
      
         [HttpPost]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -105,7 +105,7 @@ namespace TrebovanjeBackendERP.Controllers
 
         
         [HttpDelete("{kategorijaId}")]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -135,7 +135,7 @@ namespace TrebovanjeBackendERP.Controllers
        
         [HttpPut]
         [Consumes("application/json")]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]

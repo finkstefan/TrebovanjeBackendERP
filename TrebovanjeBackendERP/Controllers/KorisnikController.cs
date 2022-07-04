@@ -43,7 +43,7 @@ namespace TrebovanjeBackendERP.Controllers
         
         [HttpGet("admins")]
         [HttpHead]
-        [Authorize(Roles ="Admin")]
+      //  [Authorize(Roles ="Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -67,7 +67,7 @@ namespace TrebovanjeBackendERP.Controllers
 
         [HttpGet]
         [HttpHead]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
@@ -87,7 +87,7 @@ namespace TrebovanjeBackendERP.Controllers
 
         [HttpGet("distributers")]
         [HttpHead]
-        [Authorize(Roles = "Admin")]
+     //   [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

@@ -192,11 +192,17 @@ namespace TrebovanjeBackendERP.Controllers
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
-        public ActionResult<Porudzbina> CreatePorudzbina([FromBody] Porudzbina porudzbina)
+        public ActionResult<Porudzbina> CreatePorudzbina([FromBody] PorudzbinaCreate por)
         {
 
-            try
+          //  try
             {
+                Porudzbina porudzbina = new Porudzbina();
+                porudzbina.PorudzbinaId = por.PorudzbinaId;
+                porudzbina.Datum = por.Datum;
+                porudzbina.Isplacena = por.Isplacena;
+                porudzbina.Iznos = por.Iznos;
+                porudzbina.DistributerId = korisnikRepository.GetKorisnikIdByEmail(por.DistributerEmail);
 
                 Porudzbina createdPorudzbina = porudzbinaRepository.CreatePorudzbina(porudzbina);
 
@@ -204,7 +210,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 return Created(location, createdPorudzbina);
             }
-            catch
+          //  catch
             {
                 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Create porudzbina Error");

@@ -14,7 +14,7 @@ namespace TrebovanjeBackendERP.Repositories
 
         Distributer GetDistributerByPib(string pib);
 
-
+       
         Distributer CreateDistributer(Distributer distributer);
 
         void UpdateDistributer(Distributer distributer);

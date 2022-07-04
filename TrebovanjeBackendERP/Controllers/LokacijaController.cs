@@ -39,7 +39,7 @@ namespace TrebovanjeBackendERP.Controllers
 
         [HttpGet]
         [HttpHead]
-        [Authorize]
+      //  [Authorize]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]

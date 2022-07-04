@@ -129,11 +129,11 @@ namespace TrebovanjeBackendERP.Controllers
         public ActionResult<StavkaPorudzbine> CreateStavkaPorudzbine([FromBody] StavkaPorudzbine stavka)
         {
 
-            try
+           // try
             {
                 int dostupnaKol = proizvodRepository.GetDostupnaKolicina(stavka.ProizvodId);
 
-                if(stavka.Kolicina < stavka.Kolicina)
+                if(stavka.Kolicina <= dostupnaKol)
                 {
                     StavkaPorudzbine createdStavka = stavkaPorRepository.CreateStavkaPorudzbine(stavka);
 
@@ -154,7 +154,7 @@ namespace TrebovanjeBackendERP.Controllers
 
               
             }
-            catch
+          //  catch
             {
                 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Create stavka porudzbine Error");
