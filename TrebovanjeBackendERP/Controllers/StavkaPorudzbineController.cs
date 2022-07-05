@@ -23,15 +23,17 @@ namespace TrebovanjeBackendERP.Controllers
     {
         private readonly IStavkaPorudzbineRepository stavkaPorRepository;
         public readonly IProizvodRepository proizvodRepository;
+        public readonly IPorudzbinaRepository porudzbinaRepository;
         private readonly LinkGenerator linkGenerator;
         private readonly IMapper mapper;
 
 
 
-        public StavkaPorudzbineController(IStavkaPorudzbineRepository stavkaPorRepository,IProizvodRepository proizvodRepository, LinkGenerator linkGenerator, IMapper mapper)
+        public StavkaPorudzbineController(IPorudzbinaRepository porudzbinaRepository, IStavkaPorudzbineRepository stavkaPorRepository,IProizvodRepository proizvodRepository, LinkGenerator linkGenerator, IMapper mapper)
         {
             this.stavkaPorRepository = stavkaPorRepository;
             this.proizvodRepository = proizvodRepository;
+            this.porudzbinaRepository = porudzbinaRepository;
             this.linkGenerator = linkGenerator;
             this.mapper = mapper;
            
@@ -137,11 +139,17 @@ namespace TrebovanjeBackendERP.Controllers
                 {
                     StavkaPorudzbine createdStavka = stavkaPorRepository.CreateStavkaPorudzbine(stavka);
 
-                    Proizvod updateProdQuantity = proizvodRepository.GetProizvodById(stavka.ProizvodId);
+                    Proizvod proizv = proizvodRepository.GetProizvodById(stavka.ProizvodId);
 
-                    updateProdQuantity.DostupnaKolicina -= stavka.Kolicina;
+                    proizv.DostupnaKolicina -= stavka.Kolicina;
 
-                    proizvodRepository.UpdateProizvod(updateProdQuantity);
+                    proizvodRepository.UpdateProizvod(proizv);
+
+                    Porudzbina por = porudzbinaRepository.GetPorudzbinaById(stavka.PorudzbinaId);
+
+                    por.Iznos += proizv.Cena * stavka.Kolicina;
+
+                    porudzbinaRepository.UpdatePorudzbina(por);
 
                     string location = linkGenerator.GetPathByAction("GetStavkaPorudzbine", "StavkaPorudzbine", new { stavkaPorId = stavka.StavkaPorudzbineId });
 

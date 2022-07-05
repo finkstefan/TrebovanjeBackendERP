@@ -187,7 +187,7 @@ namespace TrebovanjeBackendERP.Controllers
     
 
     [HttpPost]
-        [Authorize(Roles = "Admin")]
+       // [Authorize(Roles = "Admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -240,7 +240,7 @@ namespace TrebovanjeBackendERP.Controllers
 
         
         [HttpPut]
-        [Authorize(Roles = "Admin")]
+      //  [Authorize(Roles = "Admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -248,7 +248,7 @@ namespace TrebovanjeBackendERP.Controllers
         public ActionResult<Proizvod> UpdateProizvod(Proizvod proizvod)
         {
            
-            try
+           // try
             {
 
                 var oldPr = proizvodRepository.GetProizvodById(proizvod.ProizvodId);
@@ -264,13 +264,14 @@ namespace TrebovanjeBackendERP.Controllers
                 oldPr.Dostupan = proizvod.Dostupan;
                 oldPr.Cena = proizvod.Cena;
                 oldPr.AdminId = proizvod.AdminId;
+                oldPr.DostupnaKolicina = proizvod.DostupnaKolicina;
 
 
                 proizvodRepository.SaveChanges();
 
                 return Ok(oldPr);
             }
-            catch (Exception)
+         //   catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Update proizvod error");
             }

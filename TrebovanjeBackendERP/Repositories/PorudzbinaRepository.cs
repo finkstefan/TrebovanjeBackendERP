@@ -51,7 +51,7 @@ namespace TrebovanjeBackendERP.Repositories
 
         public List<Porudzbina> GetPorudzbine()
         {
-            return context.Porudzbinas.ToList();
+            return context.Porudzbinas.ToList().OrderByDescending(o=>o.Datum).ToList();
 
 
         }
