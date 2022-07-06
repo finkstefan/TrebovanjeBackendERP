@@ -91,7 +91,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                         break;
                     case "failed":
-                        
+                        return BadRequest();
                         break;
                 }
             }
@@ -104,7 +104,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
         [HttpGet]
-       // [Authorize]
+        [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -125,7 +125,10 @@ namespace TrebovanjeBackendERP.Controllers
             {
                 return NoContent();
             }
-           
+
+            porudzbine = porudzbine.OrderBy(x => x.Datum).ToList();
+
+
             return Ok(porudzbine);
         }
 
@@ -150,7 +153,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet("{porudzbinaId}")]
-     //   [Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Porudzbina> GetPorudzbina(int porudzbinaId)
@@ -166,7 +169,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
         [HttpGet("byDistributer/{email}")]
-      //  [Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Porudzbina>> GetPorudzbineByDistributer(string email)
@@ -183,21 +186,22 @@ namespace TrebovanjeBackendERP.Controllers
             foreach(Porudzbina p in por)
             {
                 p.Distributer = distributerRepository.GetDistributerById(p.DistributerId);
+                p.Iznos = stavkaPorRepository.GetIznosPorudzbineByPorudzbinaId(p.PorudzbinaId);
             }
-
+            por = por.OrderByDescending(x => x.Datum).ToList();
             return Ok(por);
         }
 
 
         [HttpPost]
-      //  [Authorize]
+       [Authorize]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<Porudzbina> CreatePorudzbina([FromBody] PorudzbinaCreate por)
         {
 
-          //  try
+            try
             {
                 Porudzbina porudzbina = new Porudzbina();
                 porudzbina.PorudzbinaId = por.PorudzbinaId;
@@ -213,7 +217,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 return Created(location, createdPorudzbina);
             }
-          //  catch
+          catch
             {
                 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Create porudzbina Error");

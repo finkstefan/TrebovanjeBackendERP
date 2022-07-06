@@ -41,7 +41,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet]
-      //  [Authorize]
+        [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -60,7 +60,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
         [HttpGet("stavkeByPorudzbinaId/{porId}")]
-        //  [Authorize]
+        [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -85,7 +85,7 @@ namespace TrebovanjeBackendERP.Controllers
         }
 
         [HttpGet("iznosPorudzbine/{porId}")]
-        //  [Authorize]
+        [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -124,14 +124,14 @@ namespace TrebovanjeBackendERP.Controllers
 
         
         [HttpPost]
-     //   [Authorize]
+        [Authorize]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public ActionResult<StavkaPorudzbine> CreateStavkaPorudzbine([FromBody] StavkaPorudzbine stavka)
         {
 
-           // try
+            try
             {
                 int dostupnaKol = proizvodRepository.GetDostupnaKolicina(stavka.ProizvodId);
 
@@ -145,11 +145,13 @@ namespace TrebovanjeBackendERP.Controllers
 
                     proizvodRepository.UpdateProizvod(proizv);
 
-                    Porudzbina por = porudzbinaRepository.GetPorudzbinaById(stavka.PorudzbinaId);
+                  //  Porudzbina por = porudzbinaRepository.GetPorudzbinaById(stavka.PorudzbinaId);
 
-                    por.Iznos += proizv.Cena * stavka.Kolicina;
+                  //  float iznos = proizv.Cena * stavka.Kolicina;
 
-                    porudzbinaRepository.UpdatePorudzbina(por);
+                   // por.Iznos += iznos;
+
+                 //   porudzbinaRepository.UpdatePorudzbina(por);
 
                     string location = linkGenerator.GetPathByAction("GetStavkaPorudzbine", "StavkaPorudzbine", new { stavkaPorId = stavka.StavkaPorudzbineId });
 
@@ -162,7 +164,7 @@ namespace TrebovanjeBackendERP.Controllers
 
               
             }
-          //  catch
+            catch
             {
                 
                 return StatusCode(StatusCodes.Status500InternalServerError, "Create stavka porudzbine Error");

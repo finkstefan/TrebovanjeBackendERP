@@ -40,7 +40,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet]
-      //  [Authorize]
+        [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -57,6 +57,7 @@ namespace TrebovanjeBackendERP.Controllers
             foreach (Proizvod pr in proizvodi)
             {
                 pr.KategorijaNaziv = kategorijaRepository.GetKategorijaById(pr.KategorijaId).NazivKategorije;
+                pr.Kategorija = kategorijaRepository.GetKategorijaById(pr.KategorijaId);
             }
 
 
@@ -84,13 +85,14 @@ namespace TrebovanjeBackendERP.Controllers
             foreach (Proizvod pr in proizvodi)
             {
                 pr.KategorijaNaziv = kategorijaRepository.GetKategorijaById(pr.KategorijaId).NazivKategorije;
+                pr.Kategorija = kategorijaRepository.GetKategorijaById(pr.KategorijaId);
             }
 
             return Ok(proizvodi);
         }
 
         [HttpGet("byNazivAndKategorijaSorted/{naziv}/{kategorijaId}/{asc}")]
-       // [Authorize]
+        [Authorize]
         [HttpHead]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
@@ -110,6 +112,7 @@ namespace TrebovanjeBackendERP.Controllers
             foreach (Proizvod pr in proizvodi)
             {
                 pr.KategorijaNaziv = kategorijaRepository.GetKategorijaById(pr.KategorijaId).NazivKategorije;
+                pr.Kategorija = kategorijaRepository.GetKategorijaById(pr.KategorijaId);
             }
 
             return Ok(proizvodi);
@@ -117,7 +120,7 @@ namespace TrebovanjeBackendERP.Controllers
 
 
         [HttpGet("{proizvodId}")]
-      //  [Authorize]
+        [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<Proizvod> GetProizvod(int proizvodId)
@@ -148,6 +151,7 @@ namespace TrebovanjeBackendERP.Controllers
                 return NotFound();
             }
 
+
             return Ok(pr);
         }
 
@@ -163,12 +167,17 @@ namespace TrebovanjeBackendERP.Controllers
             {
                 return NotFound();
             }
+            foreach (Proizvod p in pr)
+            {
+                p.KategorijaNaziv = kategorijaRepository.GetKategorijaById(p.KategorijaId).NazivKategorije;
+                p.Kategorija = kategorijaRepository.GetKategorijaById(p.KategorijaId);
+            }
 
             return Ok(pr);
         }
 
         [HttpGet("byNaziv/{naziv}")]
-       //plaky [Authorize]
+       [Authorize]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
         public ActionResult<List<Proizvod>> GetProizvodsByNaziv(string naziv)
@@ -187,7 +196,7 @@ namespace TrebovanjeBackendERP.Controllers
     
 
     [HttpPost]
-       // [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
@@ -214,14 +223,14 @@ namespace TrebovanjeBackendERP.Controllers
 
         
         [HttpDelete("{ProizvodId}")]
-     //   [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status500InternalServerError)]
         public IActionResult DeleteProizvod(int proizvodId)
         {
            
-         //   try
+            try
             {
                 Proizvod proizvod = proizvodRepository.GetProizvodById(proizvodId);
                 if (proizvod == null)
@@ -232,7 +241,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 return NoContent();
             }
-        //    catch
+            catch
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Delete proizvod Error");
             }
@@ -240,7 +249,7 @@ namespace TrebovanjeBackendERP.Controllers
 
         
         [HttpPut]
-      //  [Authorize(Roles = "Admin")]
+        [Authorize(Roles = "Admin")]
         [Consumes("application/json")]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status200OK)]
@@ -248,7 +257,7 @@ namespace TrebovanjeBackendERP.Controllers
         public ActionResult<Proizvod> UpdateProizvod(Proizvod proizvod)
         {
            
-           // try
+            try
             {
 
                 var oldPr = proizvodRepository.GetProizvodById(proizvod.ProizvodId);
@@ -271,7 +280,7 @@ namespace TrebovanjeBackendERP.Controllers
 
                 return Ok(oldPr);
             }
-         //   catch (Exception)
+            catch (Exception)
             {
                 return StatusCode(StatusCodes.Status500InternalServerError, "Update proizvod error");
             }
